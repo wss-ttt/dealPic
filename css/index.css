@@ -1,0 +1,87 @@
+body {
+    font-family: 'Microsoft Yahei';
+}
+
+.github-buttons {
+    margin: 15px 0;
+}
+
+.github-buttons img {
+    display: block;
+    float: left;
+    margin: 0 10px 10px 0;
+}
+
+.proportion {
+    position: relative;
+}
+
+.proportion .filler {
+    width: 100%;
+    padding-top: 60%;
+}
+
+
+.mag-eg-row {
+    margin-bottom: 15px;
+}
+
+.box {
+    width: 100%;
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+    padding: 4px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.mag-eg-doc {
+    margin: 20px;
+}
+
+.outer-wrap {
+    position: relative;
+    float: left;
+}
+
+/*
+[mag-zoom="outer"] {
+    position: absolute;
+    z-index: 10;
+    left: 100%;
+}
+*/
+
+
+[mag-thumb="inner-inline"] {
+    float: left;
+}
+
+
+.mag-eg-hud {
+    position: absolute;
+    z-index: 10;
+    text-align: right;
+    padding: 0.5em;
+    color: white;
+    background: black;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.mag-eg-hud-left {
+    left: 0;
+    bottom: 0;
+    text-align: left;
+}
+
+.mag-eg-hud-right {
+    right: 0;
+    bottom: 0;
+    text-align: right;
+}
