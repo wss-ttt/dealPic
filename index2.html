@@ -47,7 +47,7 @@
           dragging = true;
 
           // 设置当前 box 的 id 为 moving_box
-          if (document.getElementById("moving_box") !== null) {
+          if (document.getElementById("moving_box")) {
             document.getElementById("moving_box").removeAttribute("id");
           }
           e.target.id = "moving_box";
@@ -70,14 +70,14 @@
       // 鼠标移动
       document.onmousemove = function (e) {
         // 更新 box 尺寸
-        if (document.getElementById("active_box") !== null) {
+        if (document.getElementById("active_box")) {
           var ab = document.getElementById("active_box");
           ab.style.width = e.pageX - startX + 'px';
           ab.style.height = e.pageY - startY + 'px';
         }
 
         // 移动，更新 box 坐标
-        if (document.getElementById("moving_box") !== null && dragging) {
+        if (document.getElementById("moving_box") && dragging) {
           var mb = document.getElementById("moving_box");
           var x = e.pageX - diffX;
           var y = e.pageY - diffY
@@ -95,7 +95,7 @@
       document.onmouseup = function (e) {
         // 禁止拖动
         dragging = false;
-        if (document.getElementById("active_box") !== null) {
+        if (document.getElementById("active_box")) {
           var ab = document.getElementById("active_box");
           ab.removeAttribute("id");
           // 如果长宽均小于 3px，移除 box
