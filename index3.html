@@ -22,6 +22,8 @@
       width: 500px;
       height: 500px;
       border: 1px solid #ccc;
+      margin: 100px auto;
+      position: relative;
     }
   </style>
 
@@ -63,8 +65,9 @@
           var active_box = document.createElement("div");
           active_box.id = "active_box";
           active_box.className = "box";
-          active_box.style.top = startY + 'px';
-          active_box.style.left = startX + 'px';
+          // 这个地方的起始坐标值的求法需要注意 需要减去 container.offsetTop
+          active_box.style.top = startY - container.offsetTop + 'px';
+          active_box.style.left = startX - container.offsetLeft + 'px';
           // document.body.appendChild(active_box);
           container.appendChild(active_box)
           active_box = null;
