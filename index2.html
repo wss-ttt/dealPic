@@ -24,11 +24,8 @@
 </head>
 
 <body>
-  <p>点击鼠标左键并拖动绘制矩形</p>
-  <div class="container"></div>
   <script type="text/javascript">
     window.onload = function (e) {
-      var contaier = document.querySelector('.container')
       e = e || window.event;
       // startX, startY 为鼠标点击时初始坐标
       // diffX, diffY 为鼠标初始坐标与 box 左上角坐标之差，用于拖动
@@ -72,8 +69,22 @@
         // 更新 box 尺寸
         if (document.getElementById("active_box")) {
           var ab = document.getElementById("active_box");
-          ab.style.width = e.pageX - startX + 'px';
-          ab.style.height = e.pageY - startY + 'px';
+          var pageX, pageY;
+          // 创建的div边界判断
+          if (e.pageX > client().width) {
+            pageX = client().width;
+          } else {
+            pageX = e.pageX;
+          }
+          if (e.pageY > client().height) {
+            pageY = client().height;
+          } else {
+            pageY = e.pageY;
+          }
+          var x = pageX - startX;
+          var y = pageY - startY;
+          ab.style.width = x + 'px';
+          ab.style.height = y + 'px';
         }
 
         // 移动，更新 box 坐标
@@ -112,13 +123,11 @@
       if (window.innerWidth !== undefined) {
         // 对于IE9+、Chrome、Firefox、Opera 以及 Safar 
         // 走该if分支
-        console.log(1)
         return {
           width: window.innerWidth,
           height: window.innerHeight
         }
       } else if (document.compatMode === 'CSS1Compat') {
-        console.log(2);
         // 有DTD声明
         // 走该分支
         return {
@@ -128,7 +137,6 @@
       } else {
         // 没有DTD声明
         // 走该分支
-        console.log(3);
         return {
           width: document.body.clientWidth,
           height: document.body.clientHeight
