@@ -9,6 +9,7 @@
       margin: 0;
       padding: 0;
     }
+
     .box {
       background: #f00;
       width: 0px;
@@ -73,7 +74,7 @@
           active_box = null;
         }
       };
-      
+
       // 鼠标移动
       container.onmousemove = function (e) {
         // 更新 box 尺寸
@@ -114,35 +115,6 @@
       };
 
     };
-    // 获取浏览器可视区的宽度和高度 兼容性
-    function client() {
-      // 注意:window.innerWidth有可能值为0 ,0就是false
-      if (window.innerWidth !== undefined) {
-        // 对于IE9+、Chrome、Firefox、Opera 以及 Safar 
-        // 走该if分支
-        console.log(1)
-        return {
-          width: window.innerWidth,
-          height: window.innerHeight
-        }
-      } else if (document.compatMode === 'CSS1Compat') {
-        console.log(2);
-        // 有DTD声明
-        // 走该分支
-        return {
-          width: document.documentElement.clientWidth,
-          height: document.documentElement.clientHeight
-        }
-      } else {
-        // 没有DTD声明
-        // 走该分支
-        console.log(3);
-        return {
-          width: document.body.clientWidth,
-          height: document.body.clientHeight
-        }
-      }
-    }
   </script>
 </body>
 
