@@ -79,8 +79,15 @@
         // 移动，更新 box 坐标
         if (document.getElementById("moving_box") !== null && dragging) {
           var mb = document.getElementById("moving_box");
-          mb.style.top = e.pageY - diffY + 'px';
-          mb.style.left = e.pageX - diffX + 'px';
+          var x = e.pageX - diffX;
+          var y = e.pageY - diffY
+          // 边界判断
+          if (x < 0) x = 0;
+          if (x > client().width - mb.offsetWidth) x = client().width - mb.offsetWidth;
+          if (y < 0) y = 0;
+          if (y > client().height - mb.offsetHeight) y = client().height - mb.offsetHeight;
+          mb.style.left = x + 'px';
+          mb.style.top = y + 'px';
         }
       };
 
@@ -97,7 +104,37 @@
           }
         }
       };
+
     };
+    // 获取浏览器可视区的宽度和高度 兼容性
+    function client() {
+      // 注意:window.innerWidth有可能值为0 ,0就是false
+      if (window.innerWidth !== undefined) {
+        // 对于IE9+、Chrome、Firefox、Opera 以及 Safar 
+        // 走该if分支
+        console.log(1)
+        return {
+          width: window.innerWidth,
+          height: window.innerHeight
+        }
+      } else if (document.compatMode === 'CSS1Compat') {
+        console.log(2);
+        // 有DTD声明
+        // 走该分支
+        return {
+          width: document.documentElement.clientWidth,
+          height: document.documentElement.clientHeight
+        }
+      } else {
+        // 没有DTD声明
+        // 走该分支
+        console.log(3);
+        return {
+          width: document.body.clientWidth,
+          height: document.body.clientHeight
+        }
+      }
+    }
   </script>
 </body>
 
