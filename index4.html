@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="src/css/mag.css" />
+  <link rel="stylesheet" href="src/theme/default.css" />
+
+  <link rel="stylesheet" href="css/index.css" />
+  <style type="text/css">
+    .container {
+      width: 500px;
+      margin: 100px auto;
+    }
+
+    .box {
+      background: #f00;
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      opacity: 0.5;
+      cursor: move;
+      z-index: 99999;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="proportion">
+      <div mag-thumb="drag" class="mag-eg-el">
+        <img src="images/500x300.jpg" />
+      </div>
+      <div mag-zoom="drag" class="mag-eg-el">
+        <img src="images/1000x600.jpg" />
+      </div>
+      <div class="filler"></div>
+    </div>
+  </div>
+  <button type="button" id="btn1">标注</button>
+  <button type="button" id="btn2">取消</button>
+  <script src="js/jquery-1.10.2.js"></script>
+  <script src="js/jquery.bridget.js"></script>
+  <script src="js/jquery.mousewheel.min.js"></script>
+  <script src="js/jquery.event.drag.js"></script>
+  <script src="js/screenfull.js"></script>
+  <script src="js/hammer.min.js"></script>
+  <script src="js/PreventGhostClick.js"></script>
+  <script src="src/js/mag-analytics.js"></script>
+  <script src="src/js/mag.js"></script>
+  <script src="src/js/mag-jquery.js"></script>
+  <script src="src/js/mag-control.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script>
+    $host = $('[mag-thumb="drag"]');
+    $host.mag({
+      position: 'drag',
+      toggle: false
+    });
+  </script>
+  <script>
+    var btn1 = document.getElementById('btn1');
+    var btn2 = document.getElementById('btn2');
+    btn1.onclick = function () {
+      $host.mag({})
+    }
+    btn2.onclick = function () {
+      $host.mag({
+        position: 'drag',
+        toggle: false
+      })
+    }
+    window.onload = function (e) {
+      var container = document.querySelector('.container')
+      e = e || window.event;
+      // startX, startY 为鼠标点击时初始坐标
+      // diffX, diffY 为鼠标初始坐标与 box 左上角坐标之差，用于拖动
+      var startX, startY, diffX, diffY;
+      // 是否拖动，初始为 false
+      var dragging = false;
+
+      // 鼠标按下
+      container.onmousedown = function (e) {
+        console.log('这个执行了没')
+        startX = e.pageX;
+        startY = e.pageY;
+
+        // 如果鼠标在 box 上被按下
+        if (e.target.className.match(/box/)) {
+          // 允许拖动
+          dragging = true;
+
+          // 设置当前 box 的 id 为 moving_box
+          if (document.getElementById("moving_box") !== null) {
+            document.getElementById("moving_box").removeAttribute("id");
+          }
+          e.target.id = "moving_box";
+
+          // 计算坐标差值
+          diffX = startX - e.target.offsetLeft;
+          diffY = startY - e.target.offsetTop;
+        } else {
+          // 在页面创建 box
+          var active_box = document.createElement("div");
+          active_box.id = "active_box";
+          active_box.className = "box";
+          // 这个地方的起始坐标值的求法需要注意 需要减去 container.offsetTop
+          active_box.style.top = startY - container.offsetTop + 'px';
+          active_box.style.left = startX - container.offsetLeft + 'px';
+          // document.body.appendChild(active_box);
+          container.appendChild(active_box)
+          active_box = null;
+        }
+      };
+
+      // 鼠标移动
+      container.onmousemove = function (e) {
+        // 更新 box 尺寸
+        if (document.getElementById("active_box") !== null) {
+          var ab = document.getElementById("active_box");
+          ab.style.width = e.pageX - startX + 'px';
+          ab.style.height = e.pageY - startY + 'px';
+        }
+
+        // 移动，更新 box 坐标
+        if (document.getElementById("moving_box") !== null && dragging) {
+          var mb = document.getElementById("moving_box");
+          var x = e.pageX - diffX;
+          var y = e.pageY - diffY
+          // 边界判断
+          if (x < 0) x = 0;
+          if (x > container.offsetWidth - mb.offsetWidth) x = container.offsetWidth - mb.offsetWidth;
+          if (y < 0) y = 0;
+          if (y > container.offsetHeight - mb.offsetHeight) y = container.offsetHeight - mb.offsetHeight;
+          mb.style.left = x + 'px';
+          mb.style.top = y + 'px';
+        }
+      };
+
+
+      // 鼠标抬起
+      document.onmouseup = function (e) {
+        // 禁止拖动
+        dragging = false;
+        if (document.getElementById("active_box") !== null) {
+          var ab = document.getElementById("active_box");
+          ab.removeAttribute("id");
+          // 如果长宽均小于 3px，移除 box
+          if (ab.offsetWidth < 3 || ab.offsetHeight < 3) {
+            container.removeChild(ab);
+          }
+        }
+      };
+
+    };
+  </script>
+</body>
+
+</html>

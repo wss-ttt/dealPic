@@ -26,9 +26,8 @@ body {
     margin-bottom: 15px;
 }
 
-.box {
+.container {
     width: 100%;
-    display: inline-block;
     max-width: 100%;
     height: auto;
     padding: 4px;
@@ -36,6 +35,7 @@ body {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
+    position: relative;
     -webkit-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
