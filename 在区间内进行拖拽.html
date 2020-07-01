@@ -37,25 +37,31 @@
     var box = document.querySelector('.box');
     var container = document.querySelector('.container');
     box.onmousedown = function (e) {
+      // 1.兼容获取事件对象
       var event = e || window.event;
+      // 2.兼容获取光标相对页面的水平距离和垂直距离
       var pageX = event.pageX || (scroll().left + event.clientX);
       var pageY = event.pageY || (scroll().top + event.clientY);
-
+      // 3.获取光标相对于div的水平距离和垂直距离
+      // 也就是光标在div中的坐标值
       var x = pageX - box.offsetLeft;
       var y = pageY - box.offsetTop;
 
       document.onmousemove = function (e) {
-        var event = e || window.event;
+        // 1.在光标移动的过程中,实时获取事件对象(兼容性获取)
+        event = e || window.event;
+        // 2.实时获取pageX和pageY(兼容性获取)
         var xx = event.pageX || (scroll().left + event.clientX);
         var yy = event.pageY || (scroll().top + event.clientY);
+        // 3.获取div元素移动的距离(pageX/pageY - 光标在div中的坐标值)
         var left = xx - x;
         var top = yy - y;
-        // 边界判断
+        // 4.边界判断
         if (left < 0) left = 0;
         if (left > container.offsetWidth - box.offsetWidth) left = container.offsetWidth - box.offsetWidth;
         if (top < 0) top = 0;
         if (top > container.offsetHeight - box.offsetHeight) top = container.offsetHeight - box.offsetHeight;
-        // 更新box的位置
+        // 5.实时进行修改left和top值,这样元素就被拖动了
         box.style.left = left + 'px';
         box.style.top = top + 'px';
       }
