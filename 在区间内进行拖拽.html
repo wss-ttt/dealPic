@@ -58,9 +58,9 @@
         var top = yy - y;
         // 4.边界判断
         if (left < 0) left = 0;
-        if (left > container.offsetWidth - box.offsetWidth) left = container.offsetWidth - box.offsetWidth;
+        if (left > container.clientWidth - box.offsetWidth) left = container.clientWidth - box.offsetWidth;
         if (top < 0) top = 0;
-        if (top > container.offsetHeight - box.offsetHeight) top = container.offsetHeight - box.offsetHeight;
+        if (top > container.clientHeight - box.offsetHeight) top = container.clientHeight - box.offsetHeight;
         // 5.实时进行修改left和top值,这样元素就被拖动了
         box.style.left = left + 'px';
         box.style.top = top + 'px';
